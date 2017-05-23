@@ -1,63 +1,85 @@
-#include "lists.hpp"
-using std::cout;
-
 #include <iostream>
 #include <string>
 
-typedef bitset<8> byte;
+#include "lists.hpp"
 
 
 int
-allocate(int quantity, list &List1, list &List2)
+allocate(int quantity, list List1, list List2)
 {
-	nodo Node = List1;
+	node* Node = List1;
 	if( getNodeSize(Node) < quantity && nextNode(Node) )
 	{
 		allocate( quantity, nextNode(Node), List2 );
 	}
 	else if( getNodeSize(Node) >= quantity )
 	{
-		insertNode(List2, quantity );
+		node* newNode;
+		insertNode(List2, newNode, quantity );
 	}
 	std::cout << "Bloque de " << quantity << "bytes NO puede ser asignado" << std::endl;
 	return 1;
 }
 
 int
-deallocate(int position, list &List1, list &List2)
+deallocate(int position, list List1, list List2)
 {
 	return 0;
 }
 
 int
-insertNode(list sourceList, node* Node, int position = 0){
-	nodo nuevo;
-	nuevo=new(struct s_nodo);
-	nuevo->siguiente = node;
-	node = nuevo; 
-	while(nodesta!=NULL){
-		node = nodesta->siguiente;
-		position++;
+insertNode(list sourceList, node* Node, int position = 0)
+{
+	if (position == 0)
+	{
+		Node->nextNode = sourceList;
+		sourceList = Node;
+	}
+	else
+	{
+		node* tempNode = sourceList;
+		for(int i = 0; i < position;i++)
+		{
+			if(tempNode->startPoint > position)
+			{
+				// Se ubica Node como el antecesor de el nodo apuntado
+				// por tempNode
+				Node->nextNode = tempNode;
+				Node->prevNode = tempNode->prevNode;
+				
+				tempNode->prevNode = Node;
+				(Node->prevNode)->nextNode = Node;
+			}
+			else
+			{
+				tempNode = tempNode->nextNode;
+			}
+		}
 	}
 }
 
 list
-newList();
+newList( int size ){
+	node theNode;
+	theNode.startPoint = 1;
+	theNode.endPoint   = size;
+	return 0;
+}
 
 node*
-getNode    (list sourceList, int position);
+getNode    (list sourceList, int position){}
 
 int
-getNodeSize(node sourceNode);
+getNodeSize(node* sourceNode){}
 
 int
-deleteNode(list sourceList, int position);
+deleteNode(list sourceList, int position){}
 
 node*
-nextNode  (node sourceNode);
+nextNode  (node* sourceNode){}
 
 int
-deleteList(list aList);
+deleteList(list aList){}
 
 int
-freeBlocks(list aList);
+freeBlocks(list aList){}

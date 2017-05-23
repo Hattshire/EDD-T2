@@ -1,12 +1,12 @@
 #include <iostream>
+#include <fstream>
 #include <string>
 
-#include "list.hpp"
+#include "lists.hpp"
 
 int main()
 {
 	std::ifstream inputDataFile( "input.dat" );
-	inputDataFile.open();
 	if( !inputDataFile.is_open() )
 	{
 		std::cout << "Can't Open File :(" << std::endl;
@@ -39,18 +39,17 @@ int main()
 			std::cout << "Can't read that line :(" << std::endl;
 			return 3+i;
 		}
-		int position;
-		if( position = line.find("malloc ") )
+		if( !line.find("malloc") )
 		{
-			allocate(std::stoi( line.substr(position) ), L1, L2);
+			allocate(std::stoi( line.substr(7) ), L1, L2);
 		}
-		else if( position = line.find("free ") )
+		else if( !line.find("free ") )
 		{
-			deallocate(std::stoi( line.substr(position) ), L1, L2);
+			deallocate(std::stoi( line.substr(5) ), L1, L2);
 		}
 		else
 		{
-			std::cout << "Unknown token in " << line << std::endl;
+			std::cout << "Unknown token in \"" << line << "\"" << std::endl;
 			return 3+i;
 		}
 	}
