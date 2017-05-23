@@ -6,14 +6,6 @@ using std::cout;
 
 typedef bitset<8> byte;
 
-struct s_nodo
-{ 	byte* valor;
-	struct nodo* siguiente;
-	int inicio, final;
-};
-
-typedef struct s_nodo *nodo;
-
 
 int
 allocate(int quantity, list &List1, list &List2)
@@ -38,14 +30,13 @@ deallocate(int position, list &List1, list &List2)
 }
 
 int
-insertNode(list sourceList, tamanio_bytes, nodo &node, int position = 0, nodo nodesta){
+insertNode(list sourceList, node* Node, int position = 0){
 	nodo nuevo;
-	nuevo=new(struct s_nodo)
+	nuevo=new(struct s_nodo);
 	nuevo->siguiente = node;
-	nuevo->valor= tamanio_bytes;
 	node = nuevo; 
 	while(nodesta!=NULL){
-		nodesta = nodesta->siguiente;
+		node = nodesta->siguiente;
 		position++;
 	}
 }
