@@ -23,7 +23,11 @@ allocate(int quantity, list List1, list List2)
 
 int
 deallocate(int position, list List1, list List2)
-{
+{	node* nodee = getNode(List2,position);
+	(nodee->prevNode)->nextNode = nodee->nextNode;
+	(nodee->nextNode)->prevNode = nodee->prevNode;
+	insertNode( List1, nodee, position);
+	join(nodee, nodee->nextNode);
 	return 0;
 }
 
@@ -49,37 +53,49 @@ insertNode(list sourceList, node* Node, int position = 0)
 				
 				tempNode->prevNode = Node;
 				(Node->prevNode)->nextNode = Node;
+
 			}
 			else
 			{
 				tempNode = tempNode->nextNode;
 			}
 		}
+
 	}
+
 }
 
 list
 newList( int size ){
-	node theNode;
+	node theNode = new node();
 	theNode.startPoint = 1;
 	theNode.endPoint   = size;
 	return 0;
 }
 
 node*
-getNode    (list sourceList, int position){}
+getNode    (list sourceList, int position){
+	node *nodee;
+	while ((nodee!=NULL) && (nodee.startPoint!=position)){
+		nodee=nodee.nextNode;
+	}
+	return nodee;
+}
+
+
 
 int
-getNodeSize(node* sourceNode){}
+deleteList(list aList){
+	
+}
 
-int
-deleteNode(list sourceList, int position){}
+int 
+join(node *Nodeone, node *Nodetwo){
+	
+	Nodeone->endPoint = Nodetwo->endPoint;
+	Nodeone->nextNode = Nodetwo->nextNode;
+	delete Nodetwo;
 
-node*
-nextNode  (node* sourceNode){}
-
-int
-deleteList(list aList){}
-
-int
-freeBlocks(list aList){}
+	
+	return 0;
+}
