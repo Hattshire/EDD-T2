@@ -20,11 +20,9 @@ allocate(int quantity, list List1, list List2)
 	    Node->nextNode = tmpNode->nextNode;
 	    
 		insertNode(List2, tmpNode);
-	    std::cout << "Alojados " << quantity << " bytes, ubicados en " << tmpNode->startPoint << "." << std::endl;
 	}
 	else
 	{
-	    std::cout << "Bloque de " << quantity << " bytes NO puede ser asignado." << std::endl;
 	    return 0;
     }
     return quantity;
@@ -40,7 +38,6 @@ deallocate(int position, list List1, list List2)
     node* nodee = getNode(List2,position);
     if(!nodee->nextNode)
     {
-        std::cout << "No se ha encontrado el nodo de posicion " << position << std::endl;
         return 1;
     }
     // Unlink the node from List2
@@ -49,17 +46,6 @@ deallocate(int position, list List1, list List2)
 	
 	// Insert the node on List1
 	insertNode( List1, tmpNode, position);
-	// Join nodee if it has a continuous block on the front
-	if (nodee->nextNode->endPoint == nodee->nextNode->nextNode->startPoint - 1)
-	{
-	    join(nodee->nextNode);
-    }
-    // Join nodee if it has a continuous block from behind
-    else if (nodee->endPoint == nodee->nextNode->startPoint - 1)
-    {
-        join(nodee);
-    }
-    std::cout << "Bloque en la posicion " << position << " liberado." << std::endl;
 	return 0;
 }
 
@@ -83,6 +69,17 @@ insertNode(list sourceList, node* Node, int position)
 				Node->nextNode = tempNode->nextNode;
 				tempNode->nextNode = Node;
                 i = position;
+
+	            // Join nodee if it has a continuous block on the front
+	            if (Node->endPoint == Node->nextNode->startPoint - 1)
+	            {
+	                join(Node);
+                }
+                // Join nodee if it has a continuous block from behind
+                if (tempNode->endPoint == Node->startPoint - 1)
+                {
+                    join(tempNode);
+                }
 			}
 			else
 			{
@@ -121,12 +118,12 @@ getNode    (list sourceList, int position){
 
 int
 deleteList(list aList){
-    node* tmpNode = aList->nextNode;
+    node* tmpNode;
     while(aList)
     {
+        tmpNode = aList->nextNode;
         delete aList;
         aList = tmpNode;
-        tmpNode = aList ? aList->nextNode : NULL;
     }
 	return 0;
 }
@@ -143,6 +140,8 @@ join(node *Node){
 
 int split(node* Node, int size)
 {
+    if(getNodeSize(Node) == size)
+        return size;
     node* nNode = new node();
     node* cNode = Node->nextNode;
     
