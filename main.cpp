@@ -57,7 +57,7 @@ int main()
 		else if( !line.find("free ") )
 		{
 		    int bytes = std::stoi( line.substr(5) );
-			deallocate(bytes, L1, L2);
+			bytes = deallocate(bytes, L1, L2);
 			outputDataFile << "Bloque de " << bytes << " bytes liberado" << std::endl;
 			
 		}
@@ -72,5 +72,6 @@ int main()
 	deleteList(L2);
 
 	inputDataFile.close();
+	outputDataFile.close();
 	return 0;
 }

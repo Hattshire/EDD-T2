@@ -46,7 +46,7 @@ deallocate(int position, list List1, list List2)
 	
 	// Insert the node on List1
 	insertNode( List1, tmpNode, position);
-	return 0;
+	return getNodeSize(tmpNode);
 }
 
 int
