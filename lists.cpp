@@ -20,12 +20,12 @@ allocate(int quantity, list List1, list List2)
 	    Node->nextNode = tmpNode->nextNode;
 	    
 		insertNode(List2, tmpNode);
+        return tmpNode->startPoint;
 	}
 	else
 	{
 	    return 0;
     }
-    return quantity;
 }
 
 //

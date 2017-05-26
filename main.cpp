@@ -12,6 +12,13 @@ int main()
 		std::cout << "Can't Open File :(" << std::endl;
 		return -1;
 	}
+	std::ofstream outputDataFile( "ouput.dat" );
+	if( !outputDataFile.is_open() )
+	{
+		std::cout << "Can't Open File :(" << std::endl;
+		return -1;
+	}
+
 
 	std::string line;
 	int totalMemory, totalOperations;
@@ -40,12 +47,19 @@ int main()
 			return 3+i;
 		}
 		if( !line.find("malloc") )
-		{
-			allocate(std::stoi( line.substr(7) ), L1, L2);
+		{   
+		    int bytes = std::stoi( line.substr(7) ), position;
+			if( (position = allocate( bytes, L1, L2)) )
+			    outputDataFile << "Bloque de " << bytes << " bytes asignado a partir del byte " << position << std::endl;
+		    else
+			    outputDataFile << "Bloque de " << bytes << " bytes NO puede ser asignado" << std::endl;
 		}
 		else if( !line.find("free ") )
 		{
-			deallocate(std::stoi( line.substr(5) ), L1, L2);
+		    int bytes = std::stoi( line.substr(5) );
+			deallocate(bytes, L1, L2);
+			outputDataFile << "Bloque de " << bytes << " bytes liberado" << std::endl;
+			
 		}
 		else
 		{
