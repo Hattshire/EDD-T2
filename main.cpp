@@ -30,7 +30,7 @@ int main()
 	}
 	totalOperations = std::stoi( line );
 	
-	list L1 = newList( totalMemory ), L2;
+	list L1 = newList( totalMemory ), L2 = newList( 0 );
 
 	for( int i = 0; i < totalOperations; i++ )
 	{
@@ -53,6 +53,9 @@ int main()
 			return 3+i;
 		}
 	}
+	
+	deleteList(L1);
+	deleteList(L2);
 
 	inputDataFile.close();
 	return 0;
